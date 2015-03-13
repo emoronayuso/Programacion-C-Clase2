@@ -1,8 +1,10 @@
 #include "concesionario.h"
 #include <string.h>
 
+#define TAM_GARAJE 50
+
 struct concesionario {
-	struct coche	*garaje[50];
+	struct coche	*garaje[TAM_GARAJE];
 	const char      *dueno;
 	uint32_t	num_coches;
 
@@ -30,11 +32,17 @@ void curso_concesionario_free(struct concesionario *con)
 void curso_concesionario_attr_unset_coche(struct concesionario *con,
 					  uint32_t pos)
 {
-	if (pos > 0 && pos > con->num_coches)
+	int i;
+
+	if (pos < 0 || pos > con->num_coches)
 		return;
 
 	con->num_coches--;
 	curso_coche_free(con->garaje[pos]);
+
+	for (i = pos; i < con->num_coches; i++)
+		con->garaje[i] = con->garaje[i+1];
+
 }
 
 static void curso_concesionario_set_data(struct concesionario *con,
@@ -51,7 +59,7 @@ static void curso_concesionario_set_data(struct concesionario *con,
 		con->dueno = strdup(data);
 		break;
 	case CURSO_CONCESIONARIO_ATTR_COCHE:
-		if (con->num_coches > 50) {
+		if (con->num_coches > TAM_GARAJE) {
 			printf("El garaje esta lleno\n");
 			break;
 		}

@@ -29,4 +29,5 @@ const char *curso_concesionario_attr_get_str(struct concesionario *con,
 struct coche *curso_concesionario_attr_get_coche(struct concesionario *con,
 						 uint16_t attr, uint32_t pos);
 
-int curso_concesionario_snprintf(char *buf, size_t size, struct concesionario *c);
+int curso_concesionario_snprintf(char *buf, size_t size,
+                                 struct concesionario *con);

@@ -30,11 +30,16 @@ void curso_concesionario_free(struct concesionario *con)
 void curso_concesionario_attr_unset_coche(struct concesionario *con,
 					  uint32_t pos)
 {
+	int i;
+
 	if (pos > 0 && pos > con->num_coches)
 		return;
 
 	con->num_coches--;
 	curso_coche_free(con->garaje[pos]);
+
+	for (i = pos; i < con->num_coches; i++)
+		con->garaje[i] = con->garaje[i+1];
 }
 
 static void curso_concesionario_set_data(struct concesionario *con,
